@@ -1,0 +1,16 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: db-job
+  annotations:
+    argocd.argoproj.io/hook: PreSync
+    argocd.argoproj.io/hook-delete-policy: HookSucceeded, BeforeHookCreation
+spec:
+  backoffLimit: 2
+  template:
+    spec:
+      containers:
+      - name: db-job
+        image: busybox
+        command: ['sh', '-c', 'echo Hello, ArgoCD! && sleep 30']
+      restartPolicy: Never
